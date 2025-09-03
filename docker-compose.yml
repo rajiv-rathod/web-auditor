@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/webauditor
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./app:/app
+      - ./scans:/scans
+      - ./reports:/reports
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=webauditor
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    command: celery -A app.core.celery worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/webauditor
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./app:/app
+      - ./scans:/scans
+      - ./reports:/reports
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - web
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+
+  # Security tools containers
+  nmap:
+    image: instrumentisto/nmap
+    network_mode: host
+    command: tail -f /dev/null
+
+  sqlmap:
+    build: ./tools/sqlmap
+    command: tail -f /dev/null
+    volumes:
+      - ./scans:/scans
+
+volumes:
+  postgres_data:
