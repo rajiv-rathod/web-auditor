@@ -114,3 +114,31 @@ class ScanResult(BaseModel):
 class ReportRequest(BaseModel):
     scan_id: int
     format: str = "pdf"  # pdf, html, json
+
+# NPM Security schemas
+class NPMAuditRequest(BaseModel):
+    package_json_content: str
+
+class DependencyCheckRequest(BaseModel):
+    dependencies: List[str]
+
+class LicenseScanRequest(BaseModel):
+    package_json_content: str
+
+class OutdatedPackagesRequest(BaseModel):
+    package_json_content: str
+
+class NPMPackageInfo(BaseModel):
+    name: str
+    version: str
+    description: Optional[str] = None
+    author: Optional[str] = None
+    license: Optional[str] = None
+    homepage: Optional[str] = None
+    repository: Optional[Dict[str, Any]] = None
+    keywords: List[str] = []
+    dependencies: Dict[str, str] = {}
+    devDependencies: Dict[str, str] = {}
+    downloads: Optional[int] = None
+    last_modified: Optional[str] = None
+    maintainers: List[Dict[str, Any]] = []

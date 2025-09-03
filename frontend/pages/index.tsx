@@ -8,7 +8,8 @@ import {
   BugAntIcon, 
   DocumentArrowDownIcon,
   EyeIcon,
-  ServerIcon 
+  ServerIcon,
+  DocumentTextIcon
 } from '@heroicons/react/24/outline'
 import toast from 'react-hot-toast'
 
@@ -37,6 +38,13 @@ export default function Home() {
       icon: BugAntIcon,
       href: '/vulnerability',
       color: 'bg-red-500'
+    },
+    {
+      name: 'NPM Security',
+      description: 'NPM package security audit, dependency check, license compliance, and outdated packages',
+      icon: DocumentTextIcon,
+      href: '/npm-security',
+      color: 'bg-yellow-500'
     },
     {
       name: 'Infrastructure Scanning',

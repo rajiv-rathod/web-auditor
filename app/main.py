@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import auth, scans, recon, vulnerability
+from app.api import auth, scans, recon, vulnerability, npm_security, security_tools
 from app.core.config import settings
 from app.core.database import engine
 from app.models import models
@@ -29,6 +29,8 @@ app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(scans.router, prefix="/api/scans", tags=["scans"])
 app.include_router(recon.router, prefix="/api/recon", tags=["reconnaissance"])
 app.include_router(vulnerability.router, prefix="/api/vulnerability", tags=["vulnerability"])
+app.include_router(npm_security.router, prefix="/api/npm", tags=["npm-security"])
+app.include_router(security_tools.router, prefix="/api/security", tags=["security-tools"])
 
 @app.get("/")
 async def root():
