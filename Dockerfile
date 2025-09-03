@@ -5,16 +5,13 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     libpq-dev \
-    nmap \
-    dnsutils \
-    whois \
     curl \
     wget \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install security tools
-RUN pip install sqlmap
+# Note: Security tools like nmap, sqlmap will be installed later
+# RUN pip install sqlmap
 
 # Set working directory
 WORKDIR /app

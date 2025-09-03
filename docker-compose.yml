@@ -61,11 +61,11 @@ services:
     network_mode: host
     command: tail -f /dev/null
 
-  sqlmap:
-    build: ./tools/sqlmap
-    command: tail -f /dev/null
-    volumes:
-      - ./scans:/scans
+  # sqlmap:
+  #   build: ./tools/sqlmap
+  #   command: tail -f /dev/null
+  #   volumes:
+  #     - ./scans:/scans
 
 volumes:
   postgres_data:
